@@ -10,9 +10,6 @@ let records = [];
 const table = $("table tbody").html();
 const targets = $("button", table);
 
-return fs.writeFileSync("list.json", JSON.stringify(ids));
-// return console.log(ids);
-
 // Go through the aggragated list and get details.
 ids.forEach(id => {
   let record = { id: id };
@@ -24,27 +21,42 @@ ids.forEach(id => {
     switch (i) {
       case 0: {
         const text = $(row).text();
-        record["beneficiaryName"] = text;
+        record["beneficiary"] = text
+          .replace(/\r?\n|\r/g, "")
+          .replace(/ +(?= )/g, "")
+          .trim();
         break;
       }
       case 1: {
         const text = $(row).text();
-        record["address1"] = text;
+        record["address1"] = text
+          .replace(/\r?\n|\r/g, "")
+          .replace(/ +(?= )/g, "")
+          .trim();
         break;
       }
       case 2: {
         const text = $(row).text();
-        record["address2"] = text;
+        record["address2"] = text
+          .replace(/\r?\n|\r/g, "")
+          .replace(/ +(?= )/g, "")
+          .trim();
         break;
       }
       case 3: {
         const text = $(row).text();
-        record["title"] = text;
+        record["title"] = text
+          .replace(/\r?\n|\r/g, "")
+          .replace(/ +(?= )/g, "")
+          .trim();
         break;
       }
       case 4: {
         const text = $(row).text();
-        record["reference"] = text;
+        record["reference"] = text
+          .replace(/\r?\n|\r/g, "")
+          .replace(/ +(?= )/g, "")
+          .trim();
         break;
       }
       case 5: {
@@ -53,10 +65,10 @@ ids.forEach(id => {
           switch (j) {
             case 0: {
               const description = $(detail).text();
-              record["description"] = description.replace(
-                /\n                  /g,
-                ""
-              );
+              record["description"] = description
+                .replace(/\r?\n|\r/g, "")
+                .replace(/ +(?= )/g, "")
+                .trim();
               break;
             }
             case 1: {
@@ -79,10 +91,16 @@ ids.forEach(id => {
               $(data).each((k, d) => {
                 switch (k) {
                   case 1: {
-                    record["completion"] = $(d).text();
+                    record["completion"] = $(d)
+                      .text()
+                      .replace(/\r?\n|\r/g, "")
+                      .replace(/ +(?= )/g, "");
                   }
                   case 3: {
-                    record["type"] = $(d).text();
+                    record["type"] = $(d)
+                      .text()
+                      .replace(/\r?\n|\r/g, "")
+                      .replace(/ +(?= )/g, "");
                   }
                 }
               });
@@ -130,3 +148,7 @@ ids.forEach(id => {
 
   records.push(record);
 });
+
+console.log(records);
+
+// fs.writeFileSync("./results.json", JSON.stringify({ data: records }));
