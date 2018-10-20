@@ -5,10 +5,7 @@ const ids = require("./list");
 const html = fs.readFileSync("./table.html", { encoding: "utf8" });
 const $ = cheerio.load(html, { normalizeWhitespace: true });
 
-let records = [];
-
-const table = $("table tbody").html();
-const targets = $("button", table);
+const records = [];
 
 // Go through the aggragated list and get details.
 ids.forEach(id => {
