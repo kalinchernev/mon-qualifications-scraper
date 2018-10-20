@@ -21,3 +21,13 @@ Hit search button on [this page](http://iropk.mon.bg/public/search) and see all 
 ```sh
 $ node extractor.js
 ```
+
+## Notes
+
+```sh
+$ node --max_old_space_size=n extractor.js
+```
+
+Where `n` is higher amount of memory allocation, it will most probably be needed as default is 512MB and is not enough.
+
+Possible solution in case of refactoring: [big-json library](https://www.npmjs.com/package/big-json) for streaming the results.
