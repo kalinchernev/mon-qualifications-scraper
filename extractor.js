@@ -149,6 +149,4 @@ ids.forEach(id => {
   records.push(record);
 });
 
-console.log(records);
-
-// fs.writeFileSync("./results.json", JSON.stringify({ data: records }));
+fs.writeFileSync("./results.json", JSON.stringify({ data: records }));
