@@ -18,7 +18,7 @@ ids.forEach(id => {
     switch (i) {
       case 0: {
         const text = $(row).text();
-        record["beneficiary"] = text
+        record["organisation"] = text
           .replace(/\r?\n|\r/g, "")
           .replace(/ +(?= )/g, "")
           .trim();
@@ -42,9 +42,10 @@ ids.forEach(id => {
       }
       case 3: {
         const text = $(row).text();
-        record["title"] = text
+        record["programme"] = text
           .replace(/\r?\n|\r/g, "")
           .replace(/ +(?= )/g, "")
+          .replace(/Програма: /g, "")
           .trim();
         break;
       }
@@ -65,6 +66,7 @@ ids.forEach(id => {
               record["description"] = description
                 .replace(/\r?\n|\r/g, "")
                 .replace(/ +(?= )/g, "")
+                .replace(/Кратко описание /g, "")
                 .trim();
               break;
             }
@@ -91,7 +93,10 @@ ids.forEach(id => {
                     record["completion"] = $(d)
                       .text()
                       .replace(/\r?\n|\r/g, "")
-                      .replace(/ +(?= )/g, "");
+                      .replace(/ +(?= )/g, "")
+                      .split(";")
+                      .filter(a => a)
+                      .map(b => b.trim());
                   }
                   case 3: {
                     record["type"] = $(d)
@@ -126,13 +131,21 @@ ids.forEach(id => {
               $(furtherContacts).each((k, d) => {
                 switch (k) {
                   case 1: {
-                    record["contact phone"] = $(d).text();
+                    record["contact phones"] = $(d)
+                      .text()
+                      .split(";")
+                      .filter(a => a)
+                      .map(b => b.trim());
                   }
                 }
               });
 
-              const address = $(".col-md-10", detail).text();
-              record["contact email"] = address;
+              const address = $(".col-md-10", detail)
+                .text()
+                .split(";")
+                .filter(a => a)
+                .map(b => b.trim());
+              record["contact emails"] = address;
 
               break;
             }
